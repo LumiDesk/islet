@@ -2,6 +2,7 @@
 import MainClock from "./components/MainClock.vue";
 import MainSearchBar from "./components/MainSearchBar.vue";
 import SettingButton from "./components/SettingButton.vue";
+import SettingPanel from "./components/SettingPanel.vue";
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import SettingButton from "./components/SettingButton.vue";
     <MainClock></MainClock>
     <MainSearchBar></MainSearchBar>
     <SettingButton></SettingButton>
+    <SettingPanel></SettingPanel>
   </div>
 </template>
 

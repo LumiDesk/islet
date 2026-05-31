@@ -1,7 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useSettingStore } from "@/store/setting";
+
+const settingStore = useSettingStore();
+
+const handleClickSettingButton = () => {
+  settingStore.isSettingOpen = true;
+};
+</script>
 
 <template>
-  <div class="setting-icon">
+  <div class="setting-icon" v-on:click="handleClickSettingButton">
     <svg
       class="setting-icon_svg"
       viewBox="0 0 16 16"
