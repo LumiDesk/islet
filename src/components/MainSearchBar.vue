@@ -44,6 +44,10 @@ const handleSearch = () => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   text-align: center;
+
+  font-family: "Fusion Pixel", monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
 }
 
 .capsule-input:hover {
