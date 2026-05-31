@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useSettingStore } from "@/store/setting";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const settingStore = useSettingStore();
 
 const engineUrls: Record<string, string> = {
@@ -30,7 +32,7 @@ const handleSearch = () => {
       type="text"
       v-model="keyword"
       @keyup.enter="handleSearch"
-      placeholder="输入内容，按回车搜索..."
+      :placeholder="t('MainSearchBar.empty')"
       class="capsule-input"
       autofocus
     />

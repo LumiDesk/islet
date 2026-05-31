@@ -1,0 +1,44 @@
+{
+  "SettingPanel": {
+    "title": "Setting",
+    "theme": "Appearance",
+    "tabs": {
+      "about": "About",
+      "clock": "Clock",
+      "system": "System"
+    },
+    "themeOptions": {
+      "auto": "Auto",
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "clock": {
+      "style": "Clock Style",
+      "showSec": "Show Seconds"
+    },
+    "system": {
+      "title": "System Preference",
+      "defaultEngine": "Search Engine",
+      "appearance": "Appearance",
+      "showHitokoto": "Show Hitokoto",
+      "language": "Language"
+    },
+    "about": {
+      "title": "About Islet",
+      "content": "A minimalist and elegant browser start page. \nCrafted with care by Talyra42."
+    }
+  },
+  "PixelSelect": {
+    "empty": "Choose"
+  },
+  "MainSearchBar": {
+    "empty": "Type and press Enter to search..."
+  },
+  "HitokotoWidget": {
+    "padding": "Catching island signals...",
+    "empty": {
+      "title": "No matter where you go, you should remember that the past is but a mirage.",
+      "from": "One Hundred Years of Solitude"
+    }
+  }
+}

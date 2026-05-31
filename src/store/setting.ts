@@ -32,12 +32,18 @@ export const useSettingStore = defineStore(
      */
     const theme = ref<"light" | "dark" | "auto">("auto");
 
+    /**
+     * 当前语言
+     */
+    const language = ref<"zh" | "en">("zh");
+
     return {
       isSettingOpen,
       showSeconds,
       showHitokoto,
       defaultEngine,
       theme,
+      language,
     };
   },
   {

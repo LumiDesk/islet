@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps<{
   modelValue: string;
@@ -16,7 +19,7 @@ const currentLabel = computed(() => {
   const selectedOption = props.options.find(
     (opt) => opt.value === props.modelValue,
   );
-  return selectedOption ? selectedOption.label : "请选择";
+  return selectedOption ? selectedOption.label : t("PixelSelect.empty");
 });
 
 // 点击选项时的处理

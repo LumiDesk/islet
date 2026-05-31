@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useSettingStore } from "@/store/setting";
+import { useI18n } from "vue-i18n";
 import PixelToggle from "./PixelToggle.vue";
 import PixelSelect from "./PixelSelect.vue";
 
 const settingStore = useSettingStore();
+const { t, locale } = useI18n();
 
 // 定义左侧的 Tabs 列表
-const tabs = [
-  { id: "clock", label: "时钟" },
-  { id: "system", label: "系统" },
-  { id: "about", label: "关于" },
-];
+const tabs = computed(() => [
+  { id: "clock", label: t("SettingPanel.tabs.clock") },
+  { id: "system", label: t("SettingPanel.tabs.system") },
+  { id: "about", label: t("SettingPanel.tabs.about") },
+]);
 
 // 定义搜索引擎选项数据
 const engineOptions = [
@@ -21,19 +23,33 @@ const engineOptions = [
 ];
 
 // 定义主题模式数据
-const themeOptions = [
-  { label: "跟随系统", value: "auto" },
-  { label: "浅色模式", value: "light" },
-  { label: "深色模式", value: "dark" },
+const themeOptions = computed(() => [
+  { label: t("SettingPanel.themeOptions.auto"), value: "auto" },
+  { label: t("SettingPanel.themeOptions.light"), value: "light" },
+  { label: t("SettingPanel.themeOptions.dark"), value: "dark" },
+]);
+
+// 定义多语言的选项数据
+const languageOptions = [
+  { label: "简体中文", value: "zh" },
+  { label: "English", value: "en" },
 ];
 
 // 记录当前选中的 Tab，默认选中第一个
-const activeTab = ref(tabs[0].id);
+const activeTab = ref(tabs.value[0].id);
 
 // 关闭面板的方法
 const handleClosePanel = () => {
   settingStore.isSettingOpen = false;
 };
+
+// 监听切换语言
+watch(
+  () => settingStore.language,
+  (newLang) => {
+    locale.value = newLang;
+  },
+);
 </script>
 
 <template>
@@ -46,7 +62,7 @@ const handleClosePanel = () => {
       >
         <div class="setting-panel">
           <div class="panel-header">
-            <h2 class="title">设置</h2>
+            <h2 class="title">{{ t("SettingPanel.title") }}</h2>
             <button class="close-btn" @click="handleClosePanel">
               <svg
                 viewBox="0 0 16 16"
@@ -77,47 +93,55 @@ const handleClosePanel = () => {
 
             <div class="content-area">
               <div v-show="activeTab === 'clock'" class="tab-content">
-                <h3>时钟样式</h3>
+                <h3>{{ t("SettingPanel.clock.style") }}</h3>
 
                 <div class="setting-list">
                   <div class="setting-item">
-                    <span>显示秒数</span>
+                    <span>{{ t("SettingPanel.clock.showSec") }}</span>
                     <PixelToggle v-model="settingStore.showSeconds" />
                   </div>
                 </div>
               </div>
 
               <div v-show="activeTab === 'system'" class="tab-content">
-                <h3>系统偏好</h3>
-
-                <div class="setting-item">
-                  <span>默认搜索引擎</span>
-                  <PixelSelect
-                    v-model="settingStore.defaultEngine"
-                    :options="engineOptions"
-                  />
-                </div>
-
-                <div class="setting-item">
-                  <span>主题外观</span>
-                  <PixelSelect
-                    v-model="settingStore.theme"
-                    :options="themeOptions"
-                  />
-                </div>
+                <h3>{{ t("SettingPanel.system.title") }}</h3>
 
                 <div class="setting-list">
                   <div class="setting-item">
-                    <span>显示一言</span>
+                    <span>{{ t("SettingPanel.system.defaultEngine") }}</span>
+                    <PixelSelect
+                      v-model="settingStore.defaultEngine"
+                      :options="engineOptions"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <span>{{ t("SettingPanel.system.appearance") }}</span>
+                    <PixelSelect
+                      v-model="settingStore.theme"
+                      :options="themeOptions"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <span>{{ t("SettingPanel.system.showHitokoto") }}</span>
                     <PixelToggle v-model="settingStore.showHitokoto" />
+                  </div>
+
+                  <div class="setting-item">
+                    <span>{{ t("SettingPanel.system.language") }}</span>
+                    <PixelSelect
+                      v-model="settingStore.language"
+                      :options="languageOptions"
+                    />
                   </div>
                 </div>
               </div>
 
               <div v-show="activeTab === 'about'" class="tab-content">
-                <h3>关于 Islet</h3>
-                <p>
-                  一个极简、优雅的浏览器起始页。<br />由 Talyra42 精心打造。
+                <h3>{{ t("SettingPanel.about.title") }}</h3>
+                <p style="white-space: pre-wrap">
+                  {{ t("SettingPanel.about.content") }}
                 </p>
               </div>
             </div>
