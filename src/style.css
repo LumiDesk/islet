@@ -2,3 +2,13 @@
   padding: 0;
   margin: 0;
 }
+
+/* 好看的像素字体 */
+@font-face {
+  font-family: "Fusion Pixel";
+  src: url("@/assets/fonts/fusion-pixel-10px-monospaced-zh_hans.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

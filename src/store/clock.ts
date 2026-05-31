@@ -5,7 +5,7 @@ export const useClockStore = defineStore("islet-clock", () => {
   /**
    * 是否展示秒
    */
-  const showSeconds = ref(false);
+  const showSeconds = ref(true);
 
   return {
     showSeconds,

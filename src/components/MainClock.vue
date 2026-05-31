@@ -15,9 +15,9 @@ const updateTime = () => {
 
   if (clockStore.showSeconds) {
     const seconds = String(now.getSeconds()).padStart(2, "0");
-    currentTime.value = `${hours} : ${minutes} : ${seconds}`;
+    currentTime.value = `${hours}:${minutes}:${seconds}`;
   } else {
-    currentTime.value = `${hours} : ${minutes}`;
+    currentTime.value = `${hours}:${minutes}`;
   }
 
   const msUntilNextSecond = 1000 - now.getMilliseconds();
@@ -42,7 +42,9 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .time-part {
-  font-size: 40px;
+  font-size: 80px;
   font-variant-numeric: tabular-nums;
+  font-family: "Fusion Pixel";
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 </style>
