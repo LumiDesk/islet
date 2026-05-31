@@ -11,7 +11,8 @@
       "defaultEngine": "デフォルトの検索エンジン",
       "appearance": "テーマ設定",
       "showHitokoto": "「一言」を表示",
-      "language": "言語"
+      "language": "言語",
+      "autoHideSettingButton": "設定ボタンを自動的に隠す"
     },
     "about": {
       "title": "Islet について",

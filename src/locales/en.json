@@ -21,7 +21,8 @@
       "defaultEngine": "Search Engine",
       "appearance": "Appearance",
       "showHitokoto": "Show Hitokoto",
-      "language": "Language"
+      "language": "Language",
+      "autoHideSettingButton": "Auto-hide Settings Button"
     },
     "about": {
       "title": "About Islet",

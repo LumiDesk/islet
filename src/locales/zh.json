@@ -11,7 +11,8 @@
       "defaultEngine": "默认搜索引擎",
       "appearance": "主题外观",
       "showHitokoto": "显示一言",
-      "language": "语言"
+      "language": "语言",
+      "autoHideSettingButton": "设置按钮自动隐藏"
     },
     "about": {
       "title": "关于 Islet",

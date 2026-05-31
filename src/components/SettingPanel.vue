@@ -111,6 +111,14 @@ watch(
               <div v-show="activeTab === 'system'" class="tab-content">
                 <h3>{{ t("SettingPanel.system.title") }}</h3>
 
+                <div class="setting-item">
+                  <span>{{ t("SettingPanel.system.language") }}</span>
+                  <PixelSelect
+                    v-model="settingStore.language"
+                    :options="languageOptions"
+                  />
+                </div>
+
                 <div class="setting-list">
                   <div class="setting-item">
                     <span>{{ t("SettingPanel.system.defaultEngine") }}</span>
@@ -134,11 +142,10 @@ watch(
                   </div>
 
                   <div class="setting-item">
-                    <span>{{ t("SettingPanel.system.language") }}</span>
-                    <PixelSelect
-                      v-model="settingStore.language"
-                      :options="languageOptions"
-                    />
+                    <span>{{
+                      t("SettingPanel.system.autoHideSettingButton")
+                    }}</span>
+                    <PixelToggle v-model="settingStore.autoHideSettingButton" />
                   </div>
                 </div>
               </div>

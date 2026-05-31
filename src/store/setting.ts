@@ -38,6 +38,11 @@ export const useSettingStore = defineStore(
      */
     const language = ref<LanguageTypes>("zh");
 
+    /**
+     * 是否自动隐藏设置按钮
+     */
+    const autoHideSettingButton = ref(false);
+
     return {
       isSettingOpen,
       showSeconds,
@@ -45,6 +50,7 @@ export const useSettingStore = defineStore(
       defaultEngine,
       theme,
       language,
+      autoHideSettingButton,
     };
   },
   {
