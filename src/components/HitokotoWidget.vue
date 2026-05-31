@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useSettingStore } from "@/store/setting";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const settingStore = useSettingStore();
 
 // 存储一言文本和出处
-const hitokotoText = ref("正在接收岛屿电波...");
+const hitokotoText = ref(t("HitokotoWidget.padding"));
 const hitokotoFrom = ref("");
 
 // 请求一言 API
@@ -16,8 +18,8 @@ const fetchHitokoto = async () => {
     hitokotoText.value = data.hitokoto;
     hitokotoFrom.value = data.from;
   } catch (error) {
-    hitokotoText.value = "无论走到哪里，都应该记住，过去都是假的。";
-    hitokotoFrom.value = "百年孤独";
+    hitokotoText.value = t("HitokotoWidget.empty.title");
+    hitokotoFrom.value = t("HitokotoWidget.empty.from");
   }
 };
 

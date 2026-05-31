@@ -1,0 +1,44 @@
+{
+  "SettingPanel": {
+    "title": "设置",
+    "theme": "外观",
+    "clock": {
+      "style": "时钟样式",
+      "showSec": "显示秒数"
+    },
+    "system": {
+      "title": "系统偏好",
+      "defaultEngine": "默认搜索引擎",
+      "appearance": "主题外观",
+      "showHitokoto": "显示一言",
+      "language": "语言"
+    },
+    "about": {
+      "title": "关于 Islet",
+      "content": "一个极简、优雅的浏览器起始页。\n由 Talyra42 精心打造。"
+    },
+    "tabs": {
+      "clock": "时钟",
+      "system": "系统",
+      "about": "关于"
+    },
+    "themeOptions": {
+      "auto": "跟随系统",
+      "light": "浅色模式",
+      "dark": "深色模式"
+    }
+  },
+  "PixelSelect": {
+    "empty": "请选择"
+  },
+  "MainSearchBar": {
+    "empty": "输入内容，按回车搜索..."
+  },
+  "HitokotoWidget": {
+    "padding": "正在接受岛屿电波...",
+    "empty": {
+      "title": "无论走到哪里，都应该记住，过去都是假的。",
+      "from": "百年孤独"
+    }
+  }
+}
