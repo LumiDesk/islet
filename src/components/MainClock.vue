@@ -45,6 +45,8 @@ onUnmounted(() => {
   font-size: 80px;
   font-variant-numeric: tabular-nums;
   font-family: "Fusion Pixel";
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  -webkit-font-smoothing: none;
+  font-smooth: never;
 }
 </style>
