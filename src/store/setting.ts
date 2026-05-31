@@ -1,3 +1,4 @@
+import type { LanguageTypes } from "@/types/language";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -35,7 +36,7 @@ export const useSettingStore = defineStore(
     /**
      * 当前语言
      */
-    const language = ref<"zh" | "en">("zh");
+    const language = ref<LanguageTypes>("zh");
 
     return {
       isSettingOpen,

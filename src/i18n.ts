@@ -1,4 +1,5 @@
 import { createI18n } from "vue-i18n";
+import type { LanguageTypes } from "./types/language";
 import zh from "./locales/zh.json";
 import en from "./locales/en.json";
 
@@ -9,6 +10,6 @@ export const i18n = createI18n({
   messages: { zh, en },
 });
 
-export const setupI18n = (lang: "zh" | "en") => {
+export const setupI18n = (lang: LanguageTypes) => {
   i18n.global.locale.value = lang;
 };
