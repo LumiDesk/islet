@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useSettingStore } from "@/store/setting";
 import PixelToggle from "./PixelToggle.vue";
+import PixelSelect from "./PixelSelect.vue";
 
 const settingStore = useSettingStore();
 
@@ -10,6 +11,13 @@ const tabs = [
   { id: "clock", label: "时钟" },
   { id: "system", label: "系统" },
   { id: "about", label: "关于" },
+];
+
+// 定义搜索引擎选项数据
+const engineOptions = [
+  { label: "Bing", value: "bing" },
+  { label: "Google", value: "google" },
+  { label: "Baidu", value: "baidu" },
 ];
 
 // 记录当前选中的 Tab，默认选中第一个
@@ -74,6 +82,14 @@ const handleClosePanel = () => {
 
               <div v-show="activeTab === 'system'" class="tab-content">
                 <h3>系统偏好</h3>
+
+                <div class="setting-item">
+                  <span>默认搜索引擎</span>
+                  <PixelSelect
+                    v-model="settingStore.defaultEngine"
+                    :options="engineOptions"
+                  />
+                </div>
 
                 <div class="setting-list">
                   <div class="setting-item">

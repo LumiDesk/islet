@@ -1,12 +1,26 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useSettingStore } from "@/store/setting";
+
+const settingStore = useSettingStore();
+
+const engineUrls: Record<string, string> = {
+  bing: "https://www.bing.com/search?q=",
+  google: "https://www.google.com/search?q=",
+  baidu: "https://www.baidu.com/s?wd=",
+};
 
 const keyword = ref("");
 
 const handleSearch = () => {
   const query = keyword.value.trim();
   if (!query) return;
-  window.location.href = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+
+  const currentEngine = settingStore.defaultEngine || "bing";
+  const baseUrl = engineUrls[currentEngine];
+
+  // 拼接跳转
+  window.location.href = `${baseUrl}${encodeURIComponent(query)}`;
 };
 </script>
 

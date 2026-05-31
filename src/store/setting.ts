@@ -22,10 +22,16 @@ export const useSettingStore = defineStore(
      */
     const showSeconds = ref(true);
 
+    /**
+     * 默认搜索引擎
+     */
+    const defaultEngine = ref("bing");
+
     return {
       isSettingOpen,
       showSeconds,
       showHitokoto,
+      defaultEngine,
     };
   },
   {
