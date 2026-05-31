@@ -1,9 +1,28 @@
 <script setup lang="ts">
+import { watchEffect } from "vue";
+import { useSettingStore } from "./store/setting";
 import MainClock from "./components/MainClock.vue";
 import MainSearchBar from "./components/MainSearchBar.vue";
 import SettingButton from "./components/SettingButton.vue";
 import SettingPanel from "./components/SettingPanel.vue";
 import HitokotoWidget from "./components/HitokotoWidget.vue";
+
+const settingStore = useSettingStore();
+
+watchEffect(() => {
+  const theme = settingStore.theme;
+  const isSystemDark = window.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
+
+  const htmlEl = document.documentElement;
+
+  if (theme === "dark" || (theme === "auto" && isSystemDark)) {
+    htmlEl.classList.add("dark");
+  } else {
+    htmlEl.classList.remove("dark");
+  }
+});
 </script>
 
 <template>

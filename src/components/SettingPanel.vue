@@ -20,6 +20,13 @@ const engineOptions = [
   { label: "Baidu", value: "baidu" },
 ];
 
+// 定义主题模式数据
+const themeOptions = [
+  { label: "跟随系统", value: "auto" },
+  { label: "浅色模式", value: "light" },
+  { label: "深色模式", value: "dark" },
+];
+
 // 记录当前选中的 Tab，默认选中第一个
 const activeTab = ref(tabs[0].id);
 
@@ -91,6 +98,14 @@ const handleClosePanel = () => {
                   />
                 </div>
 
+                <div class="setting-item">
+                  <span>主题外观</span>
+                  <PixelSelect
+                    v-model="settingStore.theme"
+                    :options="themeOptions"
+                  />
+                </div>
+
                 <div class="setting-list">
                   <div class="setting-item">
                     <span>显示一言</span>
@@ -119,28 +134,30 @@ const handleClosePanel = () => {
   position: fixed;
   inset: 0;
   z-index: 999;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--panel-overlay);
   backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s ease;
 }
 
 /* --- 面板本体 --- */
 .setting-panel {
   width: 760px;
   height: 520px;
-  background-color: #ffffff;
+  background-color: var(--panel-bg);
   border-radius: 20px;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 
-  /* 全局应用像素字体并关闭抗锯齿 */
   font-family: "Fusion Pixel", monospace;
   -webkit-font-smoothing: none;
   font-smooth: never;
+
+  transition: background-color 0.3s ease;
 }
 
 /* --- 顶部 Header --- */
@@ -150,19 +167,21 @@ const handleClosePanel = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-main);
+  transition: border-color 0.3s ease;
 
   .title {
     margin: 0;
-    font-size: 20px; /* 稍微调大一点字号替代加粗效果 */
-    font-weight: normal; /* 强制取消默认加粗，保护像素完整性 */
-    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: normal;
+    color: var(--text-main);
+    transition: color 0.3s ease;
   }
 
   .close-btn {
     background: none;
     border: none;
-    color: #999;
+    color: var(--text-secondary);
     cursor: pointer;
     padding: 4px;
     border-radius: 6px;
@@ -172,8 +191,8 @@ const handleClosePanel = () => {
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: #f5f5f5;
-      color: #333;
+      background-color: var(--active-bg);
+      color: var(--text-main);
     }
   }
 }
@@ -188,32 +207,35 @@ const handleClosePanel = () => {
 /* --- 左侧 Tabs --- */
 .sidebar {
   width: 180px;
-  background-color: #fafafa;
-  border-right: 1px solid #f0f0f0;
+  background-color: var(--hover-bg);
+  border-right: 1px solid var(--border-main);
   padding: 16px 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .tab-item {
   padding: 12px 16px;
-  font-size: 16px; /* 像素字体字号稍大一点更清晰 */
-  color: #888888; /* 未选中时颜色调淡 */
+  font-size: 16px;
+  color: var(--text-secondary);
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
 
   &:hover {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: var(--active-bg);
+    color: var(--text-main);
   }
 
   &.active {
-    background-color: #ffffff;
-    color: #1a1a1a; /* 选中时使用极深色替代加粗 */
-    font-weight: normal; /* 取消加粗 */
+    background-color: var(--panel-bg);
+    color: var(--text-main);
+    font-weight: normal;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 }
@@ -222,8 +244,9 @@ const handleClosePanel = () => {
 .content-area {
   flex: 1;
   padding: 24px 32px;
-  background-color: #ffffff;
+  background-color: var(--panel-bg);
   overflow-y: auto;
+  transition: background-color 0.3s ease;
 }
 
 .tab-content {
@@ -232,13 +255,15 @@ const handleClosePanel = () => {
     margin-bottom: 16px;
     font-size: 22px;
     font-weight: normal;
-    color: #1a1a1a;
+    color: var(--text-main);
+    transition: color 0.3s ease;
   }
 
   p {
     font-size: 16px;
-    color: #666;
-    line-height: 1.8; /* 像素字体行高稍微拉大一点阅读体验更好 */
+    color: var(--text-secondary);
+    line-height: 1.8;
+    transition: color 0.3s ease;
   }
 }
 
@@ -246,22 +271,26 @@ const handleClosePanel = () => {
 .setting-list {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* 设置项之间的间距 */
+  gap: 16px;
   margin-top: 24px;
 }
 
 .setting-item {
   display: flex;
-  justify-content: space-between; /* 文字在左，开关在右 */
+  justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: #fafafa;
-  border: 1px solid #f0f0f0;
-  border-radius: 8px; /* 轻微的边框包裹，让设置项看起来更整齐 */
+  background-color: var(--hover-bg);
+  border: 1px solid var(--border-main);
+  border-radius: 8px;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 
   span {
     font-size: 16px;
-    color: #333;
+    color: var(--text-main);
+    transition: color 0.3s ease;
   }
 }
 

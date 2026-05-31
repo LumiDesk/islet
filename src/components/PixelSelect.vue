@@ -65,34 +65,37 @@ const selectOption = (value: string) => {
 <style lang="scss" scoped>
 .pixel-select {
   position: relative;
-  width: 120px; /* 下拉框的宽度 */
+  width: 120px;
   font-family: "Fusion Pixel", monospace;
   -webkit-font-smoothing: none;
   font-smooth: never;
-  outline: none; /* 去除点击时的原生蓝框 */
+  outline: none;
 }
 
-/* 触发器外观，风格和之前的开关保持高度一致 */
+/* 触发器外观 */
 .select-trigger {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background-color: #f5f5f5;
-  border: 2px solid #1a1a1a;
+  background-color: var(--hover-bg);
+  border: 2px solid var(--border-hard);
   border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
-  color: #1a1a1a;
-  transition: all 0.2s ease;
+  color: var(--text-main);
+  transition:
+    all 0.2s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 
   &:hover {
-    background-color: #e5e5e5;
+    background-color: var(--active-bg);
   }
 
   &.is-open {
-    background-color: #ffffff;
-    /* 展开时底边框变平，为了和下拉菜单无缝连接 */
+    background-color: var(--panel-bg);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -101,11 +104,12 @@ const selectOption = (value: string) => {
 .arrow-icon {
   width: 10px;
   height: 6px;
-  color: #1a1a1a;
-  transition: transform 0.2s ease;
+  color: var(--text-main);
+  transition:
+    transform 0.2s ease,
+    color 0.3s ease;
 }
 
-/* 展开时箭头翻转 */
 .select-trigger.is-open .arrow-icon {
   transform: rotate(180deg);
 }
@@ -113,38 +117,42 @@ const selectOption = (value: string) => {
 /* 下拉面板 */
 .select-dropdown {
   position: absolute;
-  top: 100%; /* 紧贴在触发器下方 */
+  top: 100%;
   left: 0;
   width: 100%;
-  background-color: #ffffff;
-  border: 2px solid #1a1a1a;
-  border-top: none; /* 去掉上边框，和触发器融合 */
+  background-color: var(--panel-bg);
+  border: 2px solid var(--border-hard);
+  border-top: none;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   box-sizing: border-box;
-  z-index: 100; /* 保证不被其他设置项遮挡 */
+  z-index: 100;
   overflow: hidden;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .option-item {
   padding: 10px 12px;
   font-size: 16px;
-  color: #666;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: background-color 0.1s ease;
+  transition:
+    background-color 0.1s ease,
+    color 0.1s ease;
 
   &:hover {
-    background-color: #f0f0f0;
-    color: #1a1a1a;
+    background-color: var(--hover-bg);
+    color: var(--text-main);
   }
 
   &.is-selected {
-    background-color: #1a1a1a;
-    color: #ffffff;
+    background-color: var(--text-main);
+    color: var(--panel-bg);
   }
 }
 
-/* 极其利落的下拉动画 */
 .dropdown-enter-active,
 .dropdown-leave-active {
   transition:

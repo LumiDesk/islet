@@ -27,11 +27,17 @@ export const useSettingStore = defineStore(
      */
     const defaultEngine = ref("bing");
 
+    /**
+     * 主题模式，默认跟随系统
+     */
+    const theme = ref<"light" | "dark" | "auto">("auto");
+
     return {
       isSettingOpen,
       showSeconds,
       showHitokoto,
       defaultEngine,
+      theme,
     };
   },
   {

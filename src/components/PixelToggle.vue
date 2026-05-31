@@ -23,8 +23,8 @@ const toggle = () => {
 .pixel-toggle {
   width: 46px;
   height: 26px;
-  background-color: #e5e5e5;
-  border: 2px solid #1a1a1a;
+  background-color: var(--active-bg);
+  border: 2px solid var(--border-hard);
   border-radius: 6px;
   box-sizing: border-box;
 
@@ -33,28 +33,31 @@ const toggle = () => {
   padding: 2px;
 
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .pixel-toggle.is-on {
-  background-color: #1a1a1a;
+  background-color: var(--text-main);
 }
 
 .toggle-thumb {
   width: 18px;
   height: 18px;
-  background-color: #ffffff;
-  border: 2px solid #1a1a1a;
+  background-color: var(--panel-bg);
+  border: 2px solid var(--border-hard);
   border-radius: 4px;
   box-sizing: border-box;
 
   transition:
     transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    border-color 0.3s ease;
+    border-color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .pixel-toggle.is-on .toggle-thumb {
   transform: translateX(20px);
-  border-color: #ffffff;
+  border-color: var(--panel-bg);
 }
 </style>

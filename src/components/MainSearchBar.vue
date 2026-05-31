@@ -50,15 +50,24 @@ const handleSearch = () => {
   width: 100%;
   padding: 16px 32px;
   font-size: 18px;
-  color: #333333;
-  background-color: #ffffff;
-  border: 1px solid #eaeaea;
+
+  /* 1. 替换文字和背景颜色 */
+  color: var(--text-main);
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-main);
+
   border-radius: 50px;
   outline: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  text-align: center;
 
+  /* 2. 在 transition 里加上对 color 和 background-color 的过渡，让切换深浅色时更丝滑 */
+  transition:
+    all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  text-align: center;
   font-family: "Fusion Pixel", monospace;
   -webkit-font-smoothing: none;
   font-smooth: never;
@@ -70,13 +79,15 @@ const handleSearch = () => {
 }
 
 .capsule-input:focus {
-  border-color: #cccccc;
+  /* 3. 聚焦时的边框颜色也可以换成变量 */
+  border-color: var(--border-hard);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
 }
 
 .capsule-input::placeholder {
-  color: #bbbbbb;
+  /* 4. 提示文字换成次要文字颜色 */
+  color: var(--text-secondary);
   font-size: 16px;
 }
 </style>

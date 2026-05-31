@@ -12,3 +12,38 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* 浅色变量 */
+:root {
+  --bg-main: #ffffff; /* 页面主背景 */
+  --text-main: #1a1a1a; /* 主要文字颜色 */
+  --text-secondary: #666666; /* 次要文字（如：一言的出处） */
+  --border-main: #eaeaea; /* 较浅的边框 */
+  --border-hard: #1a1a1a; /* 像素风硬朗边框 */
+  --panel-bg: #ffffff; /* 面板/弹窗背景 */
+  --panel-overlay: rgba(0, 0, 0, 0.4); /* 遮罩层 */
+  --hover-bg: #f5f5f5; /* 悬停时的底色 */
+  --active-bg: #e5e5e5; /* 按下或选中时的底色 */
+}
+
+/* 深色模式变量：当 html 或 body 拥有 .dark 类名时生效 */
+html.dark {
+  --bg-main: #121212; /* 深邃的黑灰底色 */
+  --text-main: #e5e5e5; /* 亮灰色文字，不刺眼 */
+  --text-secondary: #999999;
+  --border-main: #333333;
+  --border-hard: #e5e5e5; /* 深色模式下，边框要变成亮色 */
+  --panel-bg: #1e1e1e; /* 面板颜色比背景稍微亮一点点，拉开层次 */
+  --panel-overlay: rgba(0, 0, 0, 0.7); /* 深色模式下遮罩要更暗 */
+  --hover-bg: #2c2c2c;
+  --active-bg: #3d3d3d;
+}
+
+/* 统一设置页面的基础背景和文字颜色 */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}

@@ -56,17 +56,22 @@ onMounted(() => {
 }
 
 .hitokoto-content {
-  color: #333333;
+  /* 1. 主体文字使用主颜色 */
+  color: var(--text-main);
   font-size: 16px;
   line-height: 1.8;
   display: flex;
   align-items: flex-start;
   gap: 4px;
+  /* 加上颜色平滑过渡 */
+  transition: color 0.3s ease;
 }
 
 .quote-mark {
-  color: #999999;
+  /* 2. 引号使用次要颜色 */
+  color: var(--text-secondary);
   font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .text {
@@ -76,7 +81,9 @@ onMounted(() => {
 .hitokoto-from {
   margin-top: 12px;
   font-size: 14px;
-  color: #888888;
+  /* 3. 出处使用次要颜色 */
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
 }
 
 .fade-enter-active,

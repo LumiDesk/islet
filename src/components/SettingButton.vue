@@ -33,11 +33,12 @@ const handleClickSettingButton = () => {
   height: 32px;
   width: 32px;
   cursor: pointer;
-  color: #dbdbdb;
+
+  color: var(--text-secondary);
   transition: color 0.3s ease;
 
   &:hover {
-    color: #333333;
+    color: var(--text-main);
   }
 
   &_svg {
