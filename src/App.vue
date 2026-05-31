@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import MainClock from "./components/MainClock.vue";
 import MainSearchBar from "./components/MainSearchBar.vue";
+import SettingButton from "./components/SettingButton.vue";
 </script>
 
 <template>
   <div class="main-container">
     <MainClock></MainClock>
     <MainSearchBar></MainSearchBar>
+    <SettingButton></SettingButton>
   </div>
 </template>
 
