@@ -74,9 +74,13 @@ const handleClosePanel = () => {
 
               <div v-show="activeTab === 'system'" class="tab-content">
                 <h3>系统偏好</h3>
-                <p>
-                  这里可以添加：搜索引擎默认选项、背景壁纸上传、透明度调整等配置...
-                </p>
+
+                <div class="setting-list">
+                  <div class="setting-item">
+                    <span>显示一言</span>
+                    <PixelToggle v-model="settingStore.showHitokoto" />
+                  </div>
+                </div>
               </div>
 
               <div v-show="activeTab === 'about'" class="tab-content">

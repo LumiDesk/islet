@@ -13,6 +13,11 @@ export const useSettingStore = defineStore(
     const isSettingOpen = ref(false);
 
     /**
+     * 是否展示一言
+     */
+    const showHitokoto = ref(true);
+
+    /**
      * 是否展示秒
      */
     const showSeconds = ref(true);
@@ -20,6 +25,7 @@ export const useSettingStore = defineStore(
     return {
       isSettingOpen,
       showSeconds,
+      showHitokoto,
     };
   },
   {
