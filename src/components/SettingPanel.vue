@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { LanguageTypes } from "@/types/language";
 import { computed, ref, watch } from "vue";
 import { useSettingStore } from "@/store/setting";
 import { useI18n } from "vue-i18n";
@@ -30,9 +31,13 @@ const themeOptions = computed(() => [
 ]);
 
 // 定义多语言的选项数据
-const languageOptions = [
+const languageOptions: {
+  label: string;
+  value: LanguageTypes;
+}[] = [
   { label: "简体中文", value: "zh" },
   { label: "English", value: "en" },
+  { label: "日本語", value: "ja" },
 ];
 
 // 记录当前选中的 Tab，默认选中第一个

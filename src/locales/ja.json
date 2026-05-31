@@ -1,0 +1,44 @@
+{
+  "SettingPanel": {
+    "title": "設定",
+    "theme": "外観",
+    "clock": {
+      "style": "時計スタイル",
+      "showSec": "秒を表示"
+    },
+    "system": {
+      "title": "システム設定",
+      "defaultEngine": "デフォルトの検索エンジン",
+      "appearance": "テーマ設定",
+      "showHitokoto": "「一言」を表示",
+      "language": "言語"
+    },
+    "about": {
+      "title": "Islet について",
+      "content": "極めてシンプルでエレガントなブラウザのスタートページ。\nTalyra42 が心を込めて制作しました。"
+    },
+    "tabs": {
+      "clock": "時計",
+      "system": "システム",
+      "about": "情報"
+    },
+    "themeOptions": {
+      "auto": "システムに従う",
+      "light": "ライトモード",
+      "dark": "ダークモード"
+    }
+  },
+  "PixelSelect": {
+    "empty": "選択してください"
+  },
+  "MainSearchBar": {
+    "empty": "入力して Enter で検索..."
+  },
+  "HitokotoWidget": {
+    "padding": "島からの電波を受信中...",
+    "empty": {
+      "title": "どこへ行こうと、過去は偽りであると心に留めておくべきだ。",
+      "from": "百年の孤独"
+    }
+  }
+}
