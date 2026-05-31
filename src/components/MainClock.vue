@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { useClockStore } from "@/store/clock";
+import { useSettingStore } from "@/store/setting";
 
-const clockStore = useClockStore();
+const settingStore = useSettingStore();
 
 const currentTime = ref("");
 let timer: ReturnType<typeof setTimeout>;
@@ -13,7 +13,7 @@ const updateTime = () => {
   const hours = String(now.getHours()).padStart(2, "0");
   const minutes = String(now.getMinutes()).padStart(2, "0");
 
-  if (clockStore.showSeconds) {
+  if (settingStore.showSeconds) {
     const seconds = String(now.getSeconds()).padStart(2, "0");
     currentTime.value = `${hours}:${minutes}:${seconds}`;
   } else {

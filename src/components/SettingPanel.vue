@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useSettingStore } from "@/store/setting";
+import PixelToggle from "./PixelToggle.vue";
 
 const settingStore = useSettingStore();
 
@@ -62,9 +63,13 @@ const handleClosePanel = () => {
             <div class="content-area">
               <div v-show="activeTab === 'clock'" class="tab-content">
                 <h3>时钟样式</h3>
-                <p>
-                  这里可以添加：12/24小时制切换、是否显示秒、时间颜色等配置...
-                </p>
+
+                <div class="setting-list">
+                  <div class="setting-item">
+                    <span>显示秒数</span>
+                    <PixelToggle v-model="settingStore.showSeconds" />
+                  </div>
+                </div>
               </div>
 
               <div v-show="activeTab === 'system'" class="tab-content">
@@ -77,7 +82,7 @@ const handleClosePanel = () => {
               <div v-show="activeTab === 'about'" class="tab-content">
                 <h3>关于 Islet</h3>
                 <p>
-                  一个极简、优雅的浏览器起始页。<br />由前端开发高手精心打造。
+                  一个极简、优雅的浏览器起始页。<br />由 Talyra42 精心打造。
                 </p>
               </div>
             </div>
@@ -214,6 +219,29 @@ const handleClosePanel = () => {
     font-size: 16px;
     color: #666;
     line-height: 1.8; /* 像素字体行高稍微拉大一点阅读体验更好 */
+  }
+}
+
+/* 针对设置项列表的排版 */
+.setting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 设置项之间的间距 */
+  margin-top: 24px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between; /* 文字在左，开关在右 */
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px; /* 轻微的边框包裹，让设置项看起来更整齐 */
+
+  span {
+    font-size: 16px;
+    color: #333;
   }
 }
 
