@@ -6,10 +6,13 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
+  "chrome_settings_overrides": {
+    "homepage": "index.html"
+  },
   "icons": {
-    "16": "favicon.svg",
-    "48": "favicon.svg",
-    "128": "favicon.svg"
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
   },
   "browser_specific_settings": {
     "gecko": {
