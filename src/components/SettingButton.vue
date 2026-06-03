@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onUnmounted } from "vue";
 import { useSettingStore } from "@/store/setting";
 
 const settingStore = useSettingStore();
@@ -7,6 +7,8 @@ const settingStore = useSettingStore();
 const visible = ref(true);
 
 let hideTimer: number | null = null;
+// 用于 requestAnimationFrame 节流，避免高频 mousemove 反复执行逻辑
+let rafId: number | null = null;
 
 const clearHideTimer = () => {
   if (hideTimer !== null) {
@@ -16,12 +18,7 @@ const clearHideTimer = () => {
 };
 
 const scheduleHide = () => {
-  if (!settingStore.autoHideSettingButton) {
-    return;
-  }
-
   clearHideTimer();
-
   hideTimer = window.setTimeout(() => {
     visible.value = false;
   }, 1000);
@@ -33,48 +30,52 @@ const showButton = () => {
 };
 
 const handleMouseMove = (event: MouseEvent) => {
-  if (!settingStore.autoHideSettingButton) {
-    return;
-  }
+  // 每帧最多处理一次，合并掉同一帧内的多次 mousemove
+  if (rafId !== null) return;
 
-  const nearTopRight =
-    event.clientX >= window.innerWidth - 100 && event.clientY <= 100;
+  rafId = window.requestAnimationFrame(() => {
+    rafId = null;
 
-  if (nearTopRight) {
-    showButton();
-  } else {
-    scheduleHide();
-  }
+    const nearTopRight =
+      event.clientX >= window.innerWidth - 100 && event.clientY <= 100;
+
+    if (nearTopRight) {
+      showButton();
+    } else {
+      scheduleHide();
+    }
+  });
 };
 
 const handleClickSettingButton = () => {
   settingStore.isSettingOpen = true;
 };
 
+const stopListening = () => {
+  window.removeEventListener("mousemove", handleMouseMove);
+  clearHideTimer();
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+};
+
+// 仅在「自动隐藏」开启时才挂载全局 mousemove 监听；关闭时彻底移除
 watch(
   () => settingStore.autoHideSettingButton,
   (enabled) => {
     if (enabled) {
+      window.addEventListener("mousemove", handleMouseMove);
       scheduleHide();
     } else {
+      stopListening();
       visible.value = true;
-      clearHideTimer();
     }
   },
+  { immediate: true },
 );
 
-onMounted(() => {
-  window.addEventListener("mousemove", handleMouseMove);
-
-  if (settingStore.autoHideSettingButton) {
-    scheduleHide();
-  }
-});
-
-onUnmounted(() => {
-  window.removeEventListener("mousemove", handleMouseMove);
-  clearHideTimer();
-});
+onUnmounted(stopListening);
 </script>
 
 <template>

@@ -1,15 +1,17 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string">
 import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
 const props = defineProps<{
-  modelValue: string;
-  options: Array<{ label: string; value: string }>;
+  modelValue: T;
+  options: Array<{ label: string; value: T }>;
 }>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  "update:modelValue": [value: T];
+}>();
 
 // 控制下拉菜单的展开/收起状态
 const isOpen = ref(false);
@@ -23,7 +25,7 @@ const currentLabel = computed(() => {
 });
 
 // 点击选项时的处理
-const selectOption = (value: string) => {
+const selectOption = (value: T) => {
   emit("update:modelValue", value);
   isOpen.value = false;
 };

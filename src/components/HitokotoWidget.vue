@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useSettingStore } from "@/store/setting";
 import { useI18n } from "vue-i18n";
 
@@ -10,14 +10,21 @@ const settingStore = useSettingStore();
 const hitokotoText = ref(t("HitokotoWidget.padding"));
 const hitokotoFrom = ref("");
 
+// 组件卸载时用于中断仍在进行的请求
+const controller = new AbortController();
+
 // 请求一言 API
 const fetchHitokoto = async () => {
   try {
-    const res = await fetch("https://v1.hitokoto.cn");
+    const res = await fetch("https://v1.hitokoto.cn", {
+      signal: controller.signal,
+    });
     const data = await res.json();
     hitokotoText.value = data.hitokoto;
     hitokotoFrom.value = data.from;
   } catch (error) {
+    // 主动中断不算错误，无需展示兜底文案
+    if (controller.signal.aborted) return;
     hitokotoText.value = t("HitokotoWidget.empty.title");
     hitokotoFrom.value = t("HitokotoWidget.empty.from");
   }
@@ -25,6 +32,10 @@ const fetchHitokoto = async () => {
 
 onMounted(() => {
   fetchHitokoto();
+});
+
+onUnmounted(() => {
+  controller.abort();
 });
 </script>
 

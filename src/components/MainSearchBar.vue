@@ -62,9 +62,10 @@ const handleSearch = () => {
   outline: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
-  /* 2. 在 transition 里加上对 color 和 background-color 的过渡，让切换深浅色时更丝滑 */
+  /* 2. 只列举实际会变化的属性，避免 `all` 监听全部可动画属性带来的多余开销 */
   transition:
-    all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
     color 0.3s ease,
     background-color 0.3s ease,
     border-color 0.3s ease;
