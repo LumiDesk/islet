@@ -43,6 +43,13 @@
       "add": "Add",
       "remove": "Remove"
     },
+    "backup": {
+      "title": "Settings Backup",
+      "export": "Export",
+      "import": "Import",
+      "importSuccess": "Imported successfully",
+      "importError": "Invalid file, import failed"
+    },
     "about": {
       "title": "About Islet",
       "content": "A minimalist and elegant browser start page. \nCrafted with care by Talyra42."

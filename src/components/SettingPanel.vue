@@ -4,12 +4,41 @@ import { computed, ref, watch } from "vue";
 import { useSettingStore } from "@/store/setting";
 import { useI18n } from "vue-i18n";
 import { BUILTIN_ENGINES } from "@/config/searchEngines";
+import {
+  downloadSettings,
+  applySettingsImport,
+} from "@/utils/settingsTransfer";
 import PixelToggle from "./PixelToggle.vue";
 import PixelSelect from "./PixelSelect.vue";
 import SearchEngineManager from "./SearchEngineManager.vue";
 
 const settingStore = useSettingStore();
 const { t, locale } = useI18n();
+
+// --- 设置导入 / 导出 ---
+const fileInput = ref<HTMLInputElement | null>(null);
+const importStatus = ref<"" | "success" | "error">("");
+let importStatusTimer: ReturnType<typeof setTimeout> | undefined;
+
+const flashImportStatus = (status: "success" | "error") => {
+  importStatus.value = status;
+  clearTimeout(importStatusTimer);
+  importStatusTimer = setTimeout(() => (importStatus.value = ""), 2500);
+};
+
+const handleExport = () => downloadSettings(settingStore);
+
+const triggerImport = () => fileInput.value?.click();
+
+const handleFileChange = async (e: Event) => {
+  const input = e.target as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  const text = await file.text();
+  flashImportStatus(applySettingsImport(settingStore, text) ? "success" : "error");
+  // 重置，保证再次选同一文件也能触发 change
+  input.value = "";
+};
 
 // 定义左侧的 Tabs 列表
 const tabs = computed(() => [
@@ -209,6 +238,38 @@ watch(
                   {{ t("SettingPanel.engineManager.title") }}
                 </h3>
                 <SearchEngineManager />
+
+                <h3 class="sub-title">
+                  {{ t("SettingPanel.backup.title") }}
+                </h3>
+                <div class="backup-actions">
+                  <button class="backup-btn" @click="handleExport">
+                    {{ t("SettingPanel.backup.export") }}
+                  </button>
+                  <button class="backup-btn" @click="triggerImport">
+                    {{ t("SettingPanel.backup.import") }}
+                  </button>
+                  <input
+                    ref="fileInput"
+                    type="file"
+                    accept="application/json,.json"
+                    class="hidden-file"
+                    @change="handleFileChange"
+                  />
+                  <Transition name="fade">
+                    <span
+                      v-if="importStatus"
+                      class="backup-msg"
+                      :class="importStatus"
+                    >
+                      {{
+                        importStatus === "success"
+                          ? t("SettingPanel.backup.importSuccess")
+                          : t("SettingPanel.backup.importError")
+                      }}
+                    </span>
+                  </Transition>
+                </div>
               </div>
 
               <div v-show="activeTab === 'about'" class="tab-content">
@@ -419,6 +480,59 @@ watch(
     color: var(--text-main);
     text-decoration: underline;
   }
+}
+
+/* --- 设置备份 --- */
+.backup-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.backup-btn {
+  padding: 10px 18px;
+  font-size: 14px;
+  color: var(--text-main);
+  background-color: var(--hover-bg);
+  border: 2px solid var(--border-hard);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Fusion Pixel", monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  transition:
+    background-color 0.2s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--active-bg);
+  }
+}
+
+.hidden-file {
+  display: none;
+}
+
+.backup-msg {
+  font-size: 13px;
+
+  &.success {
+    color: var(--text-main);
+  }
+  &.error {
+    color: #e5484d;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 /* --- Vue 弹窗过渡动画 --- */

@@ -33,6 +33,13 @@
       "add": "追加",
       "remove": "削除"
     },
+    "backup": {
+      "title": "設定のバックアップ",
+      "export": "エクスポート",
+      "import": "インポート",
+      "importSuccess": "インポートしました",
+      "importError": "無効なファイルです"
+    },
     "about": {
       "title": "Islet について",
       "content": "極めてシンプルでエレガントなブラウザのスタートページ。\nTalyra42 が心を込めて制作しました。"

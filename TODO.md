@@ -47,21 +47,22 @@
 - ✅ 字号三档（小/中/大），日期同步缩放。
 - 样式细节后续如需再调。
 
-### 4. ⬜ 自定义背景
-- 使用 **IndexedDB** 存储（避免 localStorage 体积限制）。
-- 支持：上传图片 / 纯色 / 自定义渐变 / **自定义背景 CSS**。
-- ⚠️ 约束：样式美观，提供合理的默认与预览。
+### 4. ⛔ 自定义背景（已搁置 · 暂不实现）
+- 原计划：IndexedDB 存储，支持图片 / 纯色 / 渐变 / 自定义 CSS。
+- 决定：当前认为非必要，跳过。如后续需要可再启用。
 
-### 5. ⬜ 多主题 / 强调色
-- 引入可选配色方案 + 强调色。
-- ⚠️ 注意：涉及整体主题架构（CSS 变量体系、`useTheme`、防闪屏脚本），需谨慎设计后再动手。
+### 5. ⛔ 多主题 / 强调色（已搁置 · 暂不实现）
+- 原计划：可选配色方案 + 强调色（涉及主题架构）。
+- 决定：当前认为非必要，跳过。如后续需要可再启用。
 
 ### 6. ✅ 配置去重 + 类型收敛（已完成 · commit e1219e5）
 - ✅ 引擎配置统一到 [src/config/searchEngines.ts](src/config/searchEngines.ts)（`SearchEngine` 接口 + `BUILTIN_ENGINES` + `buildSearchUrl`），`MainSearchBar` 与 `SettingPanel` 均从此读取。
 - 备注：`defaultEngine` 因需兼容动态的自定义引擎 id，保持 `string` 类型（不再硬编码引擎列表，重复已消除）。
 
-### 7. ⬜ 设置导入 / 导出
-- 一键导出 / 导入 JSON，方便换设备迁移（纯本地，符合隐私定位）。
+### 7. ✅ 设置导入 / 导出（已完成）
+- ✅ 导出为 `islet-settings.json`（带 app/version 标识）。
+- ✅ 导入逐项类型校验，非法文件不污染状态，带成功/失败反馈。
+- ✅ 工具：[src/utils/settingsTransfer.ts](src/utils/settingsTransfer.ts)；入口在设置面板「设置备份」区。
 
 ---
 

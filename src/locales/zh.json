@@ -33,6 +33,13 @@
       "add": "添加",
       "remove": "删除"
     },
+    "backup": {
+      "title": "设置备份",
+      "export": "导出设置",
+      "import": "导入设置",
+      "importSuccess": "导入成功",
+      "importError": "文件无效，导入失败"
+    },
     "about": {
       "title": "关于 Islet",
       "content": "一个极简、优雅的浏览器起始页。\n由 Talyra42 精心打造。"
