@@ -6,27 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Islet</title>
     <!-- 在首屏绘制前同步套用主题，避免刷新时由浅色闪烁到深色（FOUC）。
-         直接写内联背景色，不依赖外部样式表的加载时机（dev 模式下 CSS 由 JS 注入会更晚）。 -->
-    <script>
-      (function () {
-        var isDark = false;
-        try {
-          var saved = localStorage.getItem("islet-setting");
-          var theme = saved ? JSON.parse(saved).theme : "auto";
-          var systemDark = window.matchMedia(
-            "(prefers-color-scheme: dark)",
-          ).matches;
-          isDark = theme === "dark" || (theme === "auto" && systemDark);
-        } catch (e) {
-          /* localStorage 不可用或数据损坏时静默降级为浅色 */
-        }
-        var el = document.documentElement;
-        if (isDark) el.classList.add("dark");
-        // 与 style.css 中的 --bg-main / --text-main 保持一致
-        el.style.backgroundColor = isDark ? "#121212" : "#ffffff";
-        el.style.color = isDark ? "#e5e5e5" : "#1a1a1a";
-      })();
-    </script>
+         必须用外部脚本而非内联脚本：MV3 扩展 CSP（script-src 'self'）会拦截内联脚本，
+         导致打包成扩展后首屏防闪失效。放在 <head> 的同步 <script src> 会阻塞渲染、
+         在首屏绘制前执行，效果与原内联一致。 -->
+    <script src="./theme-init.js"></script>
   </head>
   <body>
     <div id="app"></div>
