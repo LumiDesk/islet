@@ -4,7 +4,16 @@
     "theme": "外観",
     "clock": {
       "style": "時計スタイル",
-      "showSec": "秒を表示"
+      "hourFormat": "時刻表示",
+      "hour24": "24 時間制",
+      "hour12": "12 時間制",
+      "size": "文字サイズ",
+      "sizeSmall": "小",
+      "sizeMedium": "中",
+      "sizeLarge": "大",
+      "showSec": "秒を表示",
+      "showDate": "日付を表示",
+      "showWeekday": "曜日を表示"
     },
     "system": {
       "title": "システム設定",

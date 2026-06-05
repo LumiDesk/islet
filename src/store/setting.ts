@@ -28,6 +28,26 @@ export const useSettingStore = defineStore(
     const showSeconds = ref(true);
 
     /**
+     * 时间制式：24 小时制 / 12 小时制
+     */
+    const hourFormat = ref<"24" | "12">("24");
+
+    /**
+     * 是否展示日期
+     */
+    const showDate = ref(false);
+
+    /**
+     * 是否展示星期
+     */
+    const showWeekday = ref(false);
+
+    /**
+     * 时钟字号：小 / 中 / 大
+     */
+    const clockSize = ref<"small" | "medium" | "large">("medium");
+
+    /**
      * 默认搜索引擎（引用 searchEngines 中的 id，可为内置或自定义）
      */
     const defaultEngine = ref("bing");
@@ -98,6 +118,10 @@ export const useSettingStore = defineStore(
     return {
       isSettingOpen,
       showSeconds,
+      hourFormat,
+      showDate,
+      showWeekday,
+      clockSize,
       showHitokoto,
       defaultEngine,
       customEngines,

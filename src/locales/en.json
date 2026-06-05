@@ -14,7 +14,16 @@
     },
     "clock": {
       "style": "Clock Style",
-      "showSec": "Show Seconds"
+      "hourFormat": "Time Format",
+      "hour24": "24-hour",
+      "hour12": "12-hour",
+      "size": "Font Size",
+      "sizeSmall": "Small",
+      "sizeMedium": "Medium",
+      "sizeLarge": "Large",
+      "showSec": "Show Seconds",
+      "showDate": "Show Date",
+      "showWeekday": "Show Weekday"
     },
     "system": {
       "title": "System Preference",

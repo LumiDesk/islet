@@ -4,7 +4,16 @@
     "theme": "外观",
     "clock": {
       "style": "时钟样式",
-      "showSec": "显示秒数"
+      "hourFormat": "时间制式",
+      "hour24": "24 小时制",
+      "hour12": "12 小时制",
+      "size": "字号",
+      "sizeSmall": "小",
+      "sizeMedium": "中",
+      "sizeLarge": "大",
+      "showSec": "显示秒数",
+      "showDate": "显示日期",
+      "showWeekday": "显示星期"
     },
     "system": {
       "title": "系统偏好",

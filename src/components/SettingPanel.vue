@@ -26,6 +26,19 @@ const engineOptions = computed(() =>
   })),
 );
 
+// 时间制式选项
+const hourFormatOptions = computed(() => [
+  { label: t("SettingPanel.clock.hour24"), value: "24" },
+  { label: t("SettingPanel.clock.hour12"), value: "12" },
+]);
+
+// 时钟字号选项
+const clockSizeOptions = computed(() => [
+  { label: t("SettingPanel.clock.sizeSmall"), value: "small" },
+  { label: t("SettingPanel.clock.sizeMedium"), value: "medium" },
+  { label: t("SettingPanel.clock.sizeLarge"), value: "large" },
+]);
+
 // 定义主题模式数据
 const themeOptions = computed(() => [
   { label: t("SettingPanel.themeOptions.auto"), value: "auto" },
@@ -105,8 +118,34 @@ watch(
 
                 <div class="setting-list">
                   <div class="setting-item">
+                    <span>{{ t("SettingPanel.clock.hourFormat") }}</span>
+                    <PixelSelect
+                      v-model="settingStore.hourFormat"
+                      :options="hourFormatOptions"
+                    />
+                  </div>
+
+                  <div class="setting-item">
+                    <span>{{ t("SettingPanel.clock.size") }}</span>
+                    <PixelSelect
+                      v-model="settingStore.clockSize"
+                      :options="clockSizeOptions"
+                    />
+                  </div>
+
+                  <div class="setting-item">
                     <span>{{ t("SettingPanel.clock.showSec") }}</span>
                     <PixelToggle v-model="settingStore.showSeconds" />
+                  </div>
+
+                  <div class="setting-item">
+                    <span>{{ t("SettingPanel.clock.showDate") }}</span>
+                    <PixelToggle v-model="settingStore.showDate" />
+                  </div>
+
+                  <div class="setting-item">
+                    <span>{{ t("SettingPanel.clock.showWeekday") }}</span>
+                    <PixelToggle v-model="settingStore.showWeekday" />
                   </div>
                 </div>
               </div>
