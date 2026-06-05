@@ -3,8 +3,10 @@ import type { LanguageTypes } from "@/types/language";
 import { computed, ref, watch } from "vue";
 import { useSettingStore } from "@/store/setting";
 import { useI18n } from "vue-i18n";
+import { BUILTIN_ENGINES } from "@/config/searchEngines";
 import PixelToggle from "./PixelToggle.vue";
 import PixelSelect from "./PixelSelect.vue";
+import SearchEngineManager from "./SearchEngineManager.vue";
 
 const settingStore = useSettingStore();
 const { t, locale } = useI18n();
@@ -16,12 +18,13 @@ const tabs = computed(() => [
   { id: "about", label: t("SettingPanel.tabs.about") },
 ]);
 
-// 定义搜索引擎选项数据
-const engineOptions = [
-  { label: "Bing", value: "bing" },
-  { label: "Google", value: "google" },
-  { label: "Baidu", value: "baidu" },
-];
+// 搜索引擎选项 = 内置 + 用户自定义（统一来源，避免硬编码重复）
+const engineOptions = computed(() =>
+  [...BUILTIN_ENGINES, ...settingStore.customEngines].map((e) => ({
+    label: e.name,
+    value: e.id,
+  })),
+);
 
 // 定义主题模式数据
 const themeOptions = computed(() => [
@@ -129,6 +132,20 @@ watch(
                   </div>
 
                   <div class="setting-item">
+                    <span>{{ t("SettingPanel.system.searchHistory") }}</span>
+                    <div class="item-controls">
+                      <button
+                        v-if="settingStore.searchHistory.length"
+                        class="text-btn"
+                        @click="settingStore.clearSearchHistory()"
+                      >
+                        {{ t("SettingPanel.system.clearHistory") }}
+                      </button>
+                      <PixelToggle v-model="settingStore.enableSearchHistory" />
+                    </div>
+                  </div>
+
+                  <div class="setting-item">
                     <span>{{ t("SettingPanel.system.appearance") }}</span>
                     <PixelSelect
                       v-model="settingStore.theme"
@@ -148,6 +165,11 @@ watch(
                     <PixelToggle v-model="settingStore.autoHideSettingButton" />
                   </div>
                 </div>
+
+                <h3 class="sub-title">
+                  {{ t("SettingPanel.engineManager.title") }}
+                </h3>
+                <SearchEngineManager />
               </div>
 
               <div v-show="activeTab === 'about'" class="tab-content">
@@ -295,6 +317,11 @@ watch(
     transition: color 0.3s ease;
   }
 
+  h3.sub-title {
+    margin-top: 32px;
+    font-size: 18px;
+  }
+
   p {
     font-size: 16px;
     color: var(--text-secondary);
@@ -327,6 +354,31 @@ watch(
     font-size: 16px;
     color: var(--text-main);
     transition: color 0.3s ease;
+  }
+}
+
+/* 设置项右侧多个控件并排（如「清空」按钮 + 开关） */
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.text-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: "Fusion Pixel", monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--text-main);
+    text-decoration: underline;
   }
 }
 

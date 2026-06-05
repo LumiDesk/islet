@@ -9,10 +9,20 @@
     "system": {
       "title": "系统偏好",
       "defaultEngine": "默认搜索引擎",
+      "searchHistory": "搜索历史联想",
+      "clearHistory": "清空",
       "appearance": "主题外观",
       "showHitokoto": "显示一言",
       "language": "语言",
       "autoHideSettingButton": "设置按钮自动隐藏"
+    },
+    "engineManager": {
+      "title": "自定义搜索引擎",
+      "empty": "暂无自定义引擎",
+      "namePlaceholder": "名称",
+      "urlPlaceholder": "URL，用 %s 代表关键词",
+      "add": "添加",
+      "remove": "删除"
     },
     "about": {
       "title": "关于 Islet",
@@ -33,7 +43,9 @@
     "empty": "请选择"
   },
   "MainSearchBar": {
-    "empty": "输入内容，按回车搜索..."
+    "empty": "输入内容，按回车搜索...",
+    "removeHistory": "删除该历史记录",
+    "switchEngine": "切换搜索引擎"
   },
   "HitokotoWidget": {
     "padding": "正在接受岛屿电波...",

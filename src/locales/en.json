@@ -19,10 +19,20 @@
     "system": {
       "title": "System Preference",
       "defaultEngine": "Search Engine",
+      "searchHistory": "Search History Suggestions",
+      "clearHistory": "Clear",
       "appearance": "Appearance",
       "showHitokoto": "Show Hitokoto",
       "language": "Language",
       "autoHideSettingButton": "Auto-hide Settings Button"
+    },
+    "engineManager": {
+      "title": "Custom Search Engines",
+      "empty": "No custom engines yet",
+      "namePlaceholder": "Name",
+      "urlPlaceholder": "URL, use %s for the keyword",
+      "add": "Add",
+      "remove": "Remove"
     },
     "about": {
       "title": "About Islet",
@@ -33,7 +43,9 @@
     "empty": "Choose"
   },
   "MainSearchBar": {
-    "empty": "Type and press Enter to search..."
+    "empty": "Type and press Enter to search...",
+    "removeHistory": "Remove this history item",
+    "switchEngine": "Switch search engine"
   },
   "HitokotoWidget": {
     "padding": "Catching island signals...",

@@ -29,11 +29,11 @@
 > 流程：**逐个实现 → 交给用户手动验收 → 通过后再 commit**（commit 不含 AI 署名信息）。
 > 状态标记：⬜ 待开始 · 🚧 进行中 · ✅ 已完成验收
 
-### 1. ⬜ 搜索引擎可扩展 + 搜索建议
-- 引擎配置抽到**单一数据源**，消除 `MainSearchBar.vue` 与 `SettingPanel.vue` 的重复定义。
-- 支持更多内置引擎；支持**用户自定义引擎**（名称 + URL 模板，`%s`/占位符）。
-- 增加搜索建议（联想）；注意与「隐私至上」卖点的权衡（可做成默认关闭 / 可选）。
-- ⚠️ 约束：整体样式保持简洁美观，与像素风一致。
+### 1. 🚧 搜索引擎可扩展 + 搜索建议（待验收）
+- ✅ 引擎配置抽到**单一数据源** [src/config/searchEngines.ts](src/config/searchEngines.ts)，消除两处硬编码。
+- ✅ 新增内置 DuckDuckGo；支持**用户自定义引擎**（名称 + URL 模板，`%s` 占位）——见 [src/components/SearchEngineManager.vue](src/components/SearchEngineManager.vue)。
+- ✅ 搜索建议改为 **本地搜索历史联想**（输入框下拉，支持键盘上下键 / Esc / 单条删除 / 一键清空），纯本地零联网，契合隐私卖点。可在设置中开关。
+  - 说明：实时引擎联想因各引擎接口无 CORS 头、且 MV3 CSP 禁 JSONP，需 host_permissions 才能用，会破坏「零联网权限」卖点，故本期采用本地历史方案（已与你确认）。
 
 ### 2. ⬜ 一言增强
 - 增加**点击刷新**、**点击复制**。
@@ -54,10 +54,9 @@
 - 引入可选配色方案 + 强调色。
 - ⚠️ 注意：涉及整体主题架构（CSS 变量体系、`useTheme`、防闪屏脚本），需谨慎设计后再动手。
 
-### 6. ⬜ 配置去重 + 类型收敛
-- 引擎等配置统一为单一来源并派生类型。
-- `defaultEngine` 等裸 `string` 收敛为联合类型（见 [setting.ts:29](src/store/setting.ts#L29)）。
-- 可与任务 1 协同完成。
+### 6. 🚧 配置去重 + 类型收敛（待验收，随任务 1 一起完成）
+- ✅ 引擎配置统一到 [src/config/searchEngines.ts](src/config/searchEngines.ts)（`SearchEngine` 接口 + `BUILTIN_ENGINES` + `buildSearchUrl`），`MainSearchBar` 与 `SettingPanel` 均从此读取。
+- 备注：`defaultEngine` 因需兼容动态的自定义引擎 id，保持 `string` 类型（不再硬编码引擎列表，重复已消除）。
 
 ### 7. ⬜ 设置导入 / 导出
 - 一键导出 / 导入 JSON，方便换设备迁移（纯本地，符合隐私定位）。

@@ -9,10 +9,20 @@
     "system": {
       "title": "システム設定",
       "defaultEngine": "デフォルトの検索エンジン",
+      "searchHistory": "検索履歴のサジェスト",
+      "clearHistory": "クリア",
       "appearance": "テーマ設定",
       "showHitokoto": "「一言」を表示",
       "language": "言語",
       "autoHideSettingButton": "設定ボタンを自動的に隠す"
+    },
+    "engineManager": {
+      "title": "カスタム検索エンジン",
+      "empty": "カスタムエンジンはまだありません",
+      "namePlaceholder": "名前",
+      "urlPlaceholder": "URL、キーワードは %s で指定",
+      "add": "追加",
+      "remove": "削除"
     },
     "about": {
       "title": "Islet について",
@@ -33,7 +43,9 @@
     "empty": "選択してください"
   },
   "MainSearchBar": {
-    "empty": "入力して Enter で検索..."
+    "empty": "入力して Enter で検索...",
+    "removeHistory": "この履歴を削除",
+    "switchEngine": "検索エンジンを切り替え"
   },
   "HitokotoWidget": {
     "padding": "島からの電波を受信中...",
