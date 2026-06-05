@@ -1,0 +1,101 @@
+name: Release
+
+# 推送形如 v1.6.0 的 tag 即触发：自动写回版本号、构建、打包并发布 GitHub Release。
+#
+# 用法（本地）：
+#   git tag v1.6.0
+#   git push origin v1.6.0
+#
+# 流程：从 tag 解析版本号 -> 写入 manifest.json / package.json 并提交回 main
+#       -> pnpm build -> 打包 dist 为 zip -> 创建 GitHub Release 并上传 zip。
+
+on:
+  push:
+    tags:
+      - "v*"
+
+# 需要写权限：把版本号提交回 main，以及创建 Release。
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 解析 tag 中的版本号
+        id: ver
+        # GITHUB_REF_NAME 为 tag 名（如 v1.6.0），去掉前缀 v 得到纯版本号。
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          if ! echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::tag '$GITHUB_REF_NAME' 不是合法的 vX.Y.Z 形式"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # 检出 main 分支（而非 detached 的 tag），以便把版本号提交回去。
+      - name: 检出 main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          # 必须与本地一致：pnpm 9 会要求 pnpm-workspace.yaml 含 packages 字段而报错，
+          # pnpm 10+ 才把该文件兼作配置文件（允许只放 allowBuilds 等设置）。
+          version: 11.5.0
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          # pnpm 11.5.0 要求 Node >= 22.13（用到内置模块 node:sqlite），低于此会崩。
+          node-version: 22
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 写入版本号到 manifest.json 与 package.json
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const version = process.env.VERSION;
+            for (const file of ["public/manifest.json", "package.json"]) {
+              const json = JSON.parse(fs.readFileSync(file, "utf8"));
+              json.version = version;
+              fs.writeFileSync(file, JSON.stringify(json, null, 2) + "\n");
+            }
+          '
+
+      - name: 提交版本号回 main
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/manifest.json package.json
+          if git diff --cached --quiet; then
+            echo "版本号无变化，跳过提交"
+          else
+            git commit -m "chore: 发布 v${VERSION}"
+            git push origin HEAD:main
+          fi
+
+      - name: 构建
+        run: pnpm build
+
+      - name: 打包 dist 为 zip
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: cd dist && zip -r "../islet-v${VERSION}.zip" . && cd ..
+
+      - name: 创建 GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: v${{ steps.ver.outputs.version }}
+          files: islet-v${{ steps.ver.outputs.version }}.zip
+          generate_release_notes: true
