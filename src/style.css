@@ -1,6 +1,15 @@
 * {
   padding: 0;
   margin: 0;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 输入类元素保留文本可选/可编辑 */
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 /* 好看的像素字体 */
