@@ -49,6 +49,9 @@
   },
   "HitokotoWidget": {
     "padding": "Catching island signals...",
+    "refresh": "Another one",
+    "copy": "Copy",
+    "copied": "Copied",
     "empty": {
       "title": "No matter where you go, you should remember that the past is but a mirage.",
       "from": "One Hundred Years of Solitude"

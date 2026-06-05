@@ -29,15 +29,17 @@
 > 流程：**逐个实现 → 交给用户手动验收 → 通过后再 commit**（commit 不含 AI 署名信息）。
 > 状态标记：⬜ 待开始 · 🚧 进行中 · ✅ 已完成验收
 
-### 1. 🚧 搜索引擎可扩展 + 搜索建议（待验收）
+### 1. ✅ 搜索引擎可扩展 + 搜索建议（已完成 · commit e1219e5）
 - ✅ 引擎配置抽到**单一数据源** [src/config/searchEngines.ts](src/config/searchEngines.ts)，消除两处硬编码。
 - ✅ 新增内置 DuckDuckGo；支持**用户自定义引擎**（名称 + URL 模板，`%s` 占位）——见 [src/components/SearchEngineManager.vue](src/components/SearchEngineManager.vue)。
 - ✅ 搜索建议改为 **本地搜索历史联想**（输入框下拉，支持键盘上下键 / Esc / 单条删除 / 一键清空），纯本地零联网，契合隐私卖点。可在设置中开关。
   - 说明：实时引擎联想因各引擎接口无 CORS 头、且 MV3 CSP 禁 JSONP，需 host_permissions 才能用，会破坏「零联网权限」卖点，故本期采用本地历史方案（已与你确认）。
 
-### 2. ⬜ 一言增强
-- 增加**点击刷新**、**点击复制**。
-- ⚠️ 约束：**不内置本地语录库**（避免增大插件体积）。
+### 2. ✅ 一言增强（已完成）
+- ✅ 增加**点击刷新（换一句）**：带 loading 态防重复，刷新时图标旋转。
+- ✅ 增加**点击复制**：复制「文本 —— 出处」，成功短暂显示对勾 + 「已复制」。
+- ✅ 按钮平时淡出，悬停一言区域时显现，保持极简。
+- ✅ 未内置本地库，仍只走 hitokoto.cn，体积不增。
 
 ### 3. ⬜ 时钟样式可选
 - 12 / 24 小时制切换。
@@ -54,7 +56,7 @@
 - 引入可选配色方案 + 强调色。
 - ⚠️ 注意：涉及整体主题架构（CSS 变量体系、`useTheme`、防闪屏脚本），需谨慎设计后再动手。
 
-### 6. 🚧 配置去重 + 类型收敛（待验收，随任务 1 一起完成）
+### 6. ✅ 配置去重 + 类型收敛（已完成 · commit e1219e5）
 - ✅ 引擎配置统一到 [src/config/searchEngines.ts](src/config/searchEngines.ts)（`SearchEngine` 接口 + `BUILTIN_ENGINES` + `buildSearchUrl`），`MainSearchBar` 与 `SettingPanel` 均从此读取。
 - 备注：`defaultEngine` 因需兼容动态的自定义引擎 id，保持 `string` 类型（不再硬编码引擎列表，重复已消除）。
 
