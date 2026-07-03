@@ -6,7 +6,7 @@
 
 **Islet** 是一个极简、优雅的浏览器新标签页扩展。它摒弃了喧嚣的信息流与复杂的组件，旨在为你的浏览器提供一个纯粹、专注且充满 8-bit 复古美学的上网起点。
 
-> 兼容 Chrome 与 Firefox（Manifest V3），同时接管「新标签页」与「主页」。
+> 兼容 Chrome 与 Firefox（Manifest V3）。Firefox 下同时接管「新标签页」与「主页」；Chrome 下接管「新标签页」（Chrome 的主页接管仅限 Windows/macOS 且不支持扩展内页面，故 Chrome 版不含该功能）。
 
 ---
 
@@ -36,17 +36,19 @@
 
 ## 📦 安装使用
 
-前往 [Releases](https://github.com/Talyra42/islet/releases) 下载最新的 `islet-vX.Y.Z.zip` 并解压，然后在浏览器中加载：
+前往 [Releases](https://github.com/Talyra42/islet/releases) 下载对应浏览器的 zip 并解压，然后在浏览器中加载：
 
-**Chrome / Edge**
+**Chrome / Edge**（下载 `islet-vX.Y.Z-chrome.zip`）
 
 1. 打开 `chrome://extensions`，开启右上角的「开发者模式」。
 2. 点击「加载已解压的扩展程序」，选择解压后的文件夹。
 
-**Firefox**
+**Firefox**（下载 `islet-vX.Y.Z-firefox.zip`）
 
 1. 打开 `about:debugging#/runtime/this-firefox`。
 2. 点击「临时加载附加组件」，选择文件夹内的 `manifest.json`。
+
+> 两个版本的差别仅在 `manifest.json`：Chrome 版移除了 Firefox 专属的 `browser_specific_settings` 与仅限 Windows/macOS 的 `chrome_settings_overrides`（主页接管），否则 Linux 上的 Chrome 会拒绝加载扩展。
 
 安装后新建标签页即可看到 Islet。
 
@@ -82,14 +84,24 @@
 
 ## 🏷️ 发布
 
-发布已通过 GitHub Actions 全自动化：推送一个 `vX.Y.Z` 形式的标签即可。
+推荐使用发布脚本，一条命令完成版本升级、双浏览器构建与打 tag：
 
 ```bash
-git tag v1.6.0
-git push origin v1.6.0
+scripts/publish.sh patch   # 1.7.0 -> 1.7.1
+scripts/publish.sh minor   # 1.7.0 -> 1.8.0
+scripts/publish.sh major   # 1.7.0 -> 2.0.0
+scripts/publish.sh 1.9.3   # 指定版本号
+scripts/publish.sh build   # 不改版本号，仅构建双浏览器 zip（本地调试用）
 ```
 
-CI 会自动完成：写入版本号到 `manifest.json` / `package.json` 并提交回 `main` → 构建 → 将 `dist/` 打包为 zip → 创建对应的 GitHub Release。无需手动改版本号或手动发布。
+脚本会：写入版本号 → 构建 → 在 `release/` 下生成 `islet-vX.Y.Z-chrome.zip` 与 `islet-vX.Y.Z-firefox.zip` → 提交并打 tag → 询问是否推送。推送后 GitHub Actions 会自动构建同样的双版本 zip 并创建 GitHub Release。
+
+也可以直接手动推 tag 触发 CI 发布：
+
+```bash
+git tag v1.8.0
+git push origin v1.8.0
+```
 
 ---
 

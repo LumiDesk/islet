@@ -88,14 +88,21 @@ jobs:
       - name: 构建
         run: pnpm build
 
-      - name: 打包 dist 为 zip
+      # Chrome 版会移除 Firefox 专属键（chrome_settings_overrides / browser_specific_settings），
+      # 否则 Linux 上的 Chrome 会直接拒绝加载。裁剪逻辑与本地 scripts/publish.sh 共用同一脚本。
+      - name: 生成 Chrome / Firefox 双版本并打包
         env:
           VERSION: ${{ steps.ver.outputs.version }}
-        run: cd dist && zip -r "../islet-v${VERSION}.zip" . && cd ..
+        run: |
+          node scripts/make-browser-dists.mjs
+          (cd dist-chrome && zip -qr "../islet-v${VERSION}-chrome.zip" .)
+          (cd dist-firefox && zip -qr "../islet-v${VERSION}-firefox.zip" .)
 
       - name: 创建 GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: v${{ steps.ver.outputs.version }}
-          files: islet-v${{ steps.ver.outputs.version }}.zip
+          files: |
+            islet-v${{ steps.ver.outputs.version }}-chrome.zip
+            islet-v${{ steps.ver.outputs.version }}-firefox.zip
           generate_release_notes: true
