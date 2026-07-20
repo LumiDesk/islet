@@ -405,6 +405,30 @@ watch(
   background-color: var(--panel-bg);
   overflow-y: auto;
   transition: background-color 0.3s ease;
+
+  /* Firefox：细滚动条，颜色跟随主题 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--active-bg) transparent;
+
+  /* Chrome / Edge / Safari：像素风方块滚动条（硬边、无圆角） */
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--active-bg);
+    /* 两侧留白 + 背景色描边，做出居中的细方块滑块 */
+    border: 2px solid var(--panel-bg);
+    transition: background-color 0.2s ease;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-secondary);
+  }
 }
 
 .tab-content {
