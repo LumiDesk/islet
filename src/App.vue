@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MainClock from "./components/MainClock.vue";
 import MainSearchBar from "./components/MainSearchBar.vue";
+import QuickNav from "./components/QuickNav.vue";
 import SettingButton from "./components/SettingButton.vue";
 import SettingPanel from "./components/SettingPanel.vue";
 import HitokotoWidget from "./components/HitokotoWidget.vue";
@@ -15,6 +16,7 @@ useTheme();
     <!-- 主页内容 -->
     <MainClock></MainClock>
     <MainSearchBar></MainSearchBar>
+    <QuickNav></QuickNav>
     <HitokotoWidget></HitokotoWidget>
 
     <!-- 设置相关内容 -->

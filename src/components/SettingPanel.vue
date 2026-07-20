@@ -11,6 +11,7 @@ import {
 import PixelToggle from "./PixelToggle.vue";
 import PixelSelect from "./PixelSelect.vue";
 import SearchEngineManager from "./SearchEngineManager.vue";
+import ShortcutManager from "./ShortcutManager.vue";
 
 const settingStore = useSettingStore();
 const { t, locale } = useI18n();
@@ -227,12 +228,22 @@ watch(
                   </div>
 
                   <div class="setting-item">
+                    <span>{{ t("SettingPanel.system.showShortcuts") }}</span>
+                    <PixelToggle v-model="settingStore.showShortcuts" />
+                  </div>
+
+                  <div class="setting-item">
                     <span>{{
                       t("SettingPanel.system.autoHideSettingButton")
                     }}</span>
                     <PixelToggle v-model="settingStore.autoHideSettingButton" />
                   </div>
                 </div>
+
+                <h3 class="sub-title">
+                  {{ t("SettingPanel.shortcuts.title") }}
+                </h3>
+                <ShortcutManager />
 
                 <h3 class="sub-title">
                   {{ t("SettingPanel.engineManager.title") }}

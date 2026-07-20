@@ -64,6 +64,14 @@
 - ✅ 导入逐项类型校验，非法文件不污染状态，带成功/失败反馈。
 - ✅ 工具：[src/utils/settingsTransfer.ts](src/utils/settingsTransfer.ts)；入口在设置面板「设置备份」区。
 
+### 8. ✅ 快捷导航（quick starts）（来自 issue #1）
+- ✅ 搜索栏下方新增可自定义的常用网站磁贴：[src/components/QuickNav.vue](src/components/QuickNav.vue)（接入 [App.vue](src/App.vue)）。
+- ✅ 图标：3450 个网站/品牌图标 [src/config/brandIcons.ts](src/config/brandIcons.ts)（取自 simple-icons，CC0，含品牌色）+ 通用像素图标 [src/config/navIcons.ts](src/config/navIcons.ts)（pixelarticons，MIT）+ 站点名首字母；全部本地内置零联网，**不做远程 favicon / emoji**。
+  - 性能：图标 path 直接内联存进每个 shortcut（`iconPath`），渲染磁贴无需图标库；庞大的品牌库 [brandIcons.ts](src/config/brandIcons.ts) 由选择器**懒加载**（独立 chunk，~2MB gzip，不进主包）；选择器带**搜索 + 触底分页**，一次只渲染约 60 个。
+- ✅ 磁贴用 `<a href>`，支持 Ctrl/中键新标签；悬停出编辑/删除；新标签页 `+` 磁贴与设置面板「快捷导航」区共用编辑器 [src/components/ShortcutEditor.vue](src/components/ShortcutEditor.vue)。
+- ✅ 新设置项 `showShortcuts` / `shortcuts` 已同步四处（store / SettingPanel / settingsTransfer / zh·en·ja）。
+- ⛔ **不实现「展示启用扩展前的浏览器搜索历史」**（issue #1 第二条）：读取浏览器历史需 `history` 权限，违反「零权限」硬性原则。现有「搜索历史联想」只记录经本扩展发起的搜索，属隐私卖点的必然取舍。
+
 ---
 
 ## 🧭 建议实现顺序

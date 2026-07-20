@@ -25,6 +25,8 @@ const TRANSFER_KEYS = [
   "theme",
   "language",
   "autoHideSettingButton",
+  "showShortcuts",
+  "shortcuts",
 ] as const;
 
 type TransferKey = (typeof TRANSFER_KEYS)[number];
@@ -38,6 +40,18 @@ const isValidEngine = (e: unknown): boolean =>
   isStr((e as Record<string, unknown>).id) &&
   isStr((e as Record<string, unknown>).name) &&
   isStr((e as Record<string, unknown>).searchUrl);
+
+/** 可选字符串字段（缺省或字符串均合法） */
+const isOptStr = (v: unknown): boolean => v === undefined || isStr(v);
+
+const isValidShortcut = (s: unknown): boolean =>
+  !!s &&
+  typeof s === "object" &&
+  isStr((s as Record<string, unknown>).id) &&
+  isStr((s as Record<string, unknown>).name) &&
+  isStr((s as Record<string, unknown>).url) &&
+  isOptStr((s as Record<string, unknown>).iconPath) &&
+  isOptStr((s as Record<string, unknown>).color);
 
 /** 每个设置项的取值校验，导入时逐项过滤非法值 */
 const VALIDATORS: Record<TransferKey, (v: unknown) => boolean> = {
@@ -54,6 +68,8 @@ const VALIDATORS: Record<TransferKey, (v: unknown) => boolean> = {
   theme: (v) => v === "light" || v === "dark" || v === "auto",
   language: (v) => v === "zh" || v === "en" || v === "ja",
   autoHideSettingButton: isBool,
+  showShortcuts: isBool,
+  shortcuts: (v) => Array.isArray(v) && v.every(isValidShortcut),
 };
 
 /** 构造导出对象 */
