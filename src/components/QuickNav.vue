@@ -12,6 +12,8 @@ const settingStore = useSettingStore();
 // 编辑器状态：open + 正在编辑的 id（null 为新增）
 const editorOpen = ref(false);
 const editingId = ref<string | null>(null);
+const draggingId = ref<string | null>(null);
+const suppressClick = ref(false);
 
 const openAdd = () => {
   editingId.value = null;
@@ -26,6 +28,38 @@ const openEdit = (id: string) => {
 const closeEditor = () => {
   editorOpen.value = false;
 };
+
+const onDragStart = (event: DragEvent, id: string) => {
+  draggingId.value = id;
+  if (!event.dataTransfer) return;
+  event.dataTransfer.effectAllowed = "move";
+  // Firefox 需要写入数据后才会开始拖动。
+  event.dataTransfer.setData("text/plain", id);
+};
+
+const onDragEnter = (targetId: string) => {
+  if (!draggingId.value || draggingId.value === targetId) return;
+  settingStore.moveShortcut(draggingId.value, targetId);
+};
+
+const onDragOver = (event: DragEvent) => {
+  if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+};
+
+const finishDrag = () => {
+  if (!draggingId.value) return;
+  draggingId.value = null;
+  suppressClick.value = true;
+  window.setTimeout(() => {
+    suppressClick.value = false;
+  }, 0);
+};
+
+const onTileClick = (event: MouseEvent) => {
+  if (!suppressClick.value) return;
+  event.preventDefault();
+  suppressClick.value = false;
+};
 </script>
 
 <template>
@@ -34,10 +68,23 @@ const closeEditor = () => {
       v-for="s in settingStore.shortcuts"
       :key="s.id"
       class="tile"
+      :class="{ 'tile--dragging': draggingId === s.id }"
       :href="s.url"
       :title="s.name"
+      draggable="false"
+      @click="onTileClick"
+      @dragenter.prevent="onDragEnter(s.id)"
+      @dragover.prevent="onDragOver"
+      @drop.prevent="finishDrag"
     >
-      <ShortcutIcon :shortcut="s" :size="48" />
+      <span
+        class="tile-drag-handle"
+        draggable="true"
+        @dragstart="onDragStart($event, s.id)"
+        @dragend="finishDrag"
+      >
+        <ShortcutIcon :shortcut="s" :size="48" />
+      </span>
       <span class="tile-name">{{ s.name }}</span>
 
       <!-- 悬停操作：编辑 / 删除 -->
@@ -109,10 +156,25 @@ const closeEditor = () => {
   font-smooth: never;
   transition:
     transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
-    background-color 0.2s ease;
+    background-color 0.2s ease,
+    opacity 0.15s ease;
 
   &:hover {
     transform: translateY(-3px);
+  }
+}
+
+.tile.tile--dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.tile-drag-handle {
+  display: inline-flex;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
   }
 }
 
