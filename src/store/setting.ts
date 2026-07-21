@@ -180,6 +180,20 @@ export const useSettingStore = defineStore(
       shortcuts.value = shortcuts.value.filter((s) => s.id !== id);
     };
 
+    /** 将一个快捷导航移动到目标导航当前所在的位置 */
+    const moveShortcut = (sourceId: string, targetId: string) => {
+      const sourceIndex = shortcuts.value.findIndex((s) => s.id === sourceId);
+      const targetIndex = shortcuts.value.findIndex((s) => s.id === targetId);
+      if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) {
+        return;
+      }
+
+      const next = [...shortcuts.value];
+      const [source] = next.splice(sourceIndex, 1);
+      next.splice(targetIndex, 0, source);
+      shortcuts.value = next;
+    };
+
     return {
       isSettingOpen,
       showSeconds,
@@ -205,6 +219,7 @@ export const useSettingStore = defineStore(
       addShortcut,
       updateShortcut,
       removeShortcut,
+      moveShortcut,
     };
   },
   {
